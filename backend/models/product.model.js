@@ -6,6 +6,17 @@ const productSchem = new Schema({
         type:"string",
         required:true,
         unique:true
+    },
+    labour_value:{
+        type:"Number",
+        default:-1
+    },
+    labour_input:{
+        type:"Number",
+
+    },
+    intermediate_product:{
+        type:"Array"
     }
 },{
 timestamps:true,
