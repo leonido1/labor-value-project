@@ -1,6 +1,6 @@
 import React, {Component, component} from 'react';
 import vis from 'vis';
-
+import axios from 'axios';
 
 
 export default class ProductsGraph extends Component{
@@ -8,25 +8,32 @@ export default class ProductsGraph extends Component{
 
     componentDidMount(){
 
+        axios.get("http://localhost:5000/products").then(res=>{
+            console.log(res)
+            console.log(res.data)
 
-                // create an array with nodes
-        var nodes = new vis.DataSet([
-            { id: 1, label: "Node 1" },
-            { id: 2, label: "Node 2" },
-            { id: 3, label: "Node 3" },
-            { id: 4, label: "Node 4" },
-            { id: 5, label: "Node 5" },
-        ]);
+            var nodeSet = res.data.map((product) =>{return {id:product.name,label:product.name}})
+            console.log(nodeSet)
+     
+            var nodes = new vis.DataSet(nodeSet)
         
-        // create an array with edges
-        var edges = new vis.DataSet([
-            { from: 1, to: 3 },
-            { from: 1, to: 2 },
-            { from: 2, to: 4 },
-            { from: 2, to: 5 },
-            { from: 3, to: 3 },
-        ]);
-        
+            var edgesSet =[] 
+            
+                res.data.map((product) =>{   
+                 (product.intermediate_products.map((intermediate_product)=>{
+                    edgesSet.push ({from:intermediate_product.name,to:product.name, arrows: {
+                        to: { enabled: true }
+                      },
+                      label:intermediate_product.quantity
+                    })
+                     }))
+                })
+ 
+            console.log(edgesSet)
+
+            var edges = new vis.DataSet(edgesSet);
+
+                    
         // create a network
         var container = document.getElementById("mynetwork");
         var data = {
@@ -36,13 +43,18 @@ export default class ProductsGraph extends Component{
         var options = {};
         var network = new vis.Network(container, data, options);
 
+            
+
+
+
+        })
+
+    
+        
 
 
 
     }
-
-
-
 
 
     render(){

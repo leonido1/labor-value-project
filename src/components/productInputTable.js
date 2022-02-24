@@ -5,18 +5,40 @@ import Button from 'react-bootstrap/Button'
 
 import { Typeahead } from 'react-bootstrap-typeahead'; // ES2015
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { Row } from 'react-bootstrap';
 
 
-// for dev only
-const devProducts= ["car","shirt","doors","pants"]
+import axios from 'axios';
+import $ from "jquery";
 
 
 
-export default function ProductInputTable(){
+export default function ProductInputTable(props){
 
   const[products,setProducts]= useState([])
+  const[productToChoose,setProductsToChoose] = useState([])
+  const[gotProductsFromServer,setGotProductsFromServer] = useState(false)
   
-  console.log(products)
+
+  const tableId = props.ProductInputTableId;
+
+
+  useEffect(()=>{
+
+    if(gotProductsFromServer)
+      return
+
+    axios.get('http://localhost:5000/products/').then((res)=>{
+           setProductsToChoose(res.data.map((product)=>{return product.name }))
+           setGotProductsFromServer(true)
+    
+    })
+
+  })
+
+
+   var typeahead=React.createRef();
+   
 
     var tableContends = products.map((product,index) =>{ return (
       <tr key={index}>
@@ -33,17 +55,22 @@ export default function ProductInputTable(){
       
       let arr = [...products]
       
-      console.log(arr)
-      setProducts([...products ,{name:e.target[0].value,quantity:e.target[2].value}])
+      console.log(e)
       e.preventDefault()
   
+      
+      setProducts([...products ,{name:typeahead.getInput().value,quantity:$("#quantityInPut").val()}])
+      setProductsToChoose(productToChoose.filter(product => product!=typeahead.getInput().value ))
+      console.log($("#quantityInPut").val())
+      $("#quantityInPut").val("")
+      typeahead.clear()    
+      
+      
   } 
-
-
 
     return (
     <>
-      <Table striped bordered hover>
+      <Table id = {tableId} striped bordered hover>
       <thead>
         
         <tr>
@@ -60,20 +87,25 @@ export default function ProductInputTable(){
   
   
 
-  <Form   onSubmit={addProductToTable}>
-  
     <Typeahead
           id="basic-typeahead-single"
           labelKey="name"
-          options={devProducts}
+          options={productToChoose}
           placeholder="Choose a state..."
+          value=""
+          ref={ (ref)=>typeahead=ref}
       />
   
   
      <Form.Label htmlFor="quantityInPut">Quantity</Form.Label>
-     <Form.Control    type="number" id="quantityInPut" />
-      <Button type="submit">Submit form</Button>
-  </Form>
+     <Row>
+    
+     <Form.Control  type="number" id="quantityInPut" />
+     </Row>
+      <br></br>
+      <Row>
+      <Button onClick={addProductToTable}>add intermediate product</Button>
+      </Row>
     
     </>
    

@@ -8,9 +8,11 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-  const productname = req.body.productname;
-  console.log(req.body.productname)
-  const newProduct = new product({name:productname});
+  const name = req.body.name;
+  const labour_input = req.body.labour_input;
+  const intermediate_products = req.body.intermediate_products;
+   
+  const newProduct = new product({name:name,labour_input:labour_input,intermediate_products:intermediate_products});
 
   newProduct.save()
     .then(() => res.json('Product added!'))

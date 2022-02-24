@@ -15,9 +15,10 @@ const productSchem = new Schema({
         type:"Number",
 
     },
-    intermediate_product:{
-        type:"Array"
-    }
+    intermediate_products:{
+         type:Array   
+    } 
+ 
 },{
 timestamps:true,
 })

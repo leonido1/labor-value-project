@@ -11,9 +11,6 @@ import ProductsGraph from './components/ProductsGraph';
 function App() {
 
 
-
-
-
   return (
 
    <div>
