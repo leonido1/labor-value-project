@@ -25,12 +25,11 @@ export default class AddProduct extends Component{
 
 
   addProduct(e){
-    
     let intermediateProducts = []
     let typeByIndexMap = {index:0,name:1,quantity:2};
     
         
-    for (let index = 0; index < $("#"+ProductInputTableId).find("td" ).length; index=index+3) {
+    for (let index = 0; index < $("#"+ProductInputTableId).find("td" ).length; index=index+4) {
       intermediateProducts.push({name:$("#"+ProductInputTableId).find("td" )[index+typeByIndexMap.name].innerHTML,
       quantity:$("#"+ProductInputTableId).find("td" )[index+typeByIndexMap.quantity].innerHTML})
      
@@ -48,7 +47,7 @@ export default class AddProduct extends Component{
     $("#ProductLabour").val("")
 
 
-
+    e.preventDefault()
   }
 
     render(){
@@ -65,7 +64,7 @@ export default class AddProduct extends Component{
       <Form.Control id={ProductLabourId} type="Number" placeholder="Enter Labour to produce one unit" />
 
       <br></br>
-      <ProductInputTable ProductInputTableId={ProductInputTableId}></ProductInputTable>
+      <ProductInputTable intermediateProductsToPresent={[]} ProductInputTableId={ProductInputTableId}></ProductInputTable>
       
 
       <br></br>
