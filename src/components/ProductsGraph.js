@@ -151,6 +151,7 @@ export default class ProductsGraph extends Component{
       <Labourvalue key={productName} name={productName} ></Labourvalue >
 
       <br></br>
+            
       <Typeahead
           id="select-product-name"
           labelKey="name"
