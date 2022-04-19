@@ -1,7 +1,7 @@
 import React, {Component, component} from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import ProductInputTable from "./productInputTable"
-import { Form,Button } from 'react-bootstrap';
+import { Form,Button,Col,Row,Container } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead'; // ES2015
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
@@ -23,6 +23,7 @@ export default class AddProduct extends Component{
     this.editProduct = this.editProduct.bind(this); 
     this.presentChoosenProduct = this.presentChoosenProduct.bind(this)
     this.state ={productToChoose:[],choosenProduct:{}}    
+    this.typeahead = React.createRef();
 
   }
 
@@ -33,15 +34,12 @@ productOriginalName="";
 componentDidMount(){
 
     axios.get('http://localhost:5000/products/').then((res)=>{
-            console.log(res)
             this.setState({productToChoose:res.data})           
         })    
     }
 
 presentChoosenProduct(value){
-    console.log(value)
         this.setState({choosenProduct:value})
-    console.log(this.state)
 }
 
 
@@ -49,81 +47,112 @@ editProduct(e){
     
     let intermediateProducts = []
     let typeByIndexMap = {index:0,name:1,quantity:2};
-    console.log($("#"+ProductInputTableId).find("td" ).length)
 
     for (let index = 0; index < $("#"+ProductInputTableId).find("td" ).length; index=index+4) {
       intermediateProducts.push({name:$("#"+ProductInputTableId).find("td" )[index+typeByIndexMap.name].innerHTML,
       quantity:$("#"+ProductInputTableId).find("td" )[index+typeByIndexMap.quantity].innerHTML})
+
+
     }
 
-    console.log($("#ProductName").val())
-    console.log($("#ProductLabour").val())
+    //$("#"+ProductInputTableId+" > tbody")[0].innerHTML="";
+
 
     axios.post('http://localhost:5000/products/edit',{productOriginalName:this.productOriginalName,intermediate_products:intermediateProducts,name:$("#ProductName").val(),labour_input:$("#ProductLabour").val()}).
     catch(err=>console.log(err))
 
-    $("#ProductName").val("")
-    $("#ProductLabour").val("")
+    this.presentChoosenProduct({})
+    this.typeahead.clear()
+    
+    e.preventDefault()
+
 }
 
     render(){
 
-    console.log(this.state.productToChoose.map(product=>product.name))
-    console.log("render",this.state.choosenProduct[0])
 
-
+    console.log(this.state)
     var nameToShoow="";
     var labourToShow =""
     var intermediateProductsToPresent=[];
 
     if(this.state.choosenProduct.length){
-        console.log("in if")
+ 
         nameToShoow=this.state.choosenProduct[0].name;
         labourToShow=this.state.choosenProduct[0].labour_input;
         intermediateProductsToPresent = this.state.choosenProduct[0].intermediate_products
     }
-        
-    console.log(this.state.choosenProduct.length)
 
       return ( 
-      
+  
       <Form onSubmit={this.editProduct}>
-        
-    <Typeahead
+        <br></br>
+        <Row> <Col ></Col><Col><div className="d-grid gap-1">  <h4 style={{"text-align": "center"}}>Edit Product</h4></div></Col> <Col ></Col></Row> 
+      <Row>
+    
+      <Col></Col>
+        <Col>
+        <Form.Label>Choose product to edit</Form.Label>
+     <Typeahead
           id="select-product-to-edit"
           labelKey="name"
-          options={this.state.productToChoose}
+          options={[...this.state.productToChoose]}
           placeholder="A product to edit"
-          value=""
           onChange ={(value)=>{try {
             this.productOriginalName=value[0].name 
           } catch (error) {
-            
-          }; this.presentChoosenProduct(value)}}
+            console.log("error")
+          }; console.log("value",value); this.presentChoosenProduct(value)}}
+          ref={ (ref)=>this.typeahead=ref}
+      
       />
 
         <br></br>
       <Form.Label>Name</Form.Label>
-      <Form.Control id={ProductNameId} onChange={(e)=>{console.log({...this.state.choosenProduct[0],name:e.target.labour_input})
+      <Form.Control id={ProductNameId} onChange={(e)=>{
                                                         this.setState({choosenProduct:[{...this.state.choosenProduct[0],name:e.target.labour_input}]})    }} 
                                                         type="text" placeholder="Enter name" value={nameToShoow} />
       
         <br></br>
       <Form.Label>Labour</Form.Label>
       <Form.Control id={ProductLabourId} type="Number" 
-    onChange={(e)=>{console.log({...this.state.choosenProduct[0],labour_input:e.target.value})
+    onChange={(e)=>{
     this.setState({choosenProduct:[{...this.state.choosenProduct[0],labour_input:e.target.value}]})    }}
 
       placeholder="Enter Labour to produce one unit" value={labourToShow} />
       <br></br>
+      </Col>
+      <Col></Col>
+
+      </Row>
+  
+
+      <Row>
+      <Col></Col>
+
+      <Col>
+      <Container style={{"background": "azure"}}>
       <ProductInputTable intermediateProductsToPresent={intermediateProductsToPresent} ProductInputTableId={ProductInputTableId}  ></ProductInputTable>
+      </Container>
+      </Col>
+      <Col></Col>
+      </Row>
       
       <br></br>
+        
 
+      <Row>
+        <Col></Col>
+        <Col></Col>
+        <Col>
+        <div className="d-grid gap-1">
         <Button type="submit">edit product</Button>
-
+        </div>
+        </Col>
+        <Col></Col>
+        <Col></Col>
+        </Row>
       </Form>
-      
       );
     }
 

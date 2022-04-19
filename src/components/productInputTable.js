@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 import { Typeahead } from 'react-bootstrap-typeahead'; // ES2015
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import { Row } from 'react-bootstrap';
+import { Row,Col } from 'react-bootstrap';
 
 
 import axios from 'axios';
@@ -102,6 +102,11 @@ export default function ProductInputTable(props){
 
     return (
     <>
+      <Row>
+      <Col xs={2}></Col>
+      <Col xs={10}><h4>Intermediate products table</h4></Col>
+      <Col></Col>
+      </Row>
       <Table id = {tableId} striped bordered hover>
       <thead>
         
@@ -128,14 +133,13 @@ export default function ProductInputTable(props){
   
   
      <Form.Label htmlFor="quantityInPut">Quantity</Form.Label>
-     <Row>
+     
      <Form.Control  type="number" id="quantityInPut" />
-     </Row>
       <br></br>
-      <Row>
-      <Button onClick={addProductToTable}>add intermediate product</Button>
-      </Row>
-    
+      <div className="d-grid gap-1">
+      <Button variant="secondary" onClick={addProductToTable}>add intermediate product</Button>
+      </div>
+      <br></br>
     </>
    
     )

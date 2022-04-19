@@ -1,7 +1,7 @@
 import React, {Component, component} from 'react';
 import vis from 'vis';
 import axios from 'axios';
-import { Form,Button,Row } from 'react-bootstrap';
+import { Form,Button,Row,Col,Container } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead'; // ES2015
 import Labourvalue from './LabourValue';
 
@@ -148,10 +148,14 @@ export default class ProductsGraph extends Component{
         return (
       <div>
 
-      <Labourvalue key={productName} name={productName} ></Labourvalue >
-
+    
       <br></br>
-            
+      <Container style={{"background": "azure"}}>
+      <br></br>
+      <Row>
+      <Col></Col>
+    <Col>
+
       <Typeahead
           id="select-product-name"
           labelKey="name"
@@ -160,14 +164,26 @@ export default class ProductsGraph extends Component{
           value=""
           onChange={(value)=>{ this.changeChoosenProduct(value[0])}}
         />
-
-     <Row>
+    </Col>
+    <Col></Col>
+    </Row>
     
-     </Row>
-      <br></br>
-      
-      <Button onClick={this.showProductByName}>show graph</Button>
+    <Row><br></br></Row>
 
+    <Row>
+    <Col></Col>   
+    <Col><Labourvalue key={productName} name={productName} ></Labourvalue ></Col>
+    <Col></Col>
+    </Row>
+
+    <Row>
+        <Col  xs={5}></Col>
+      <Col xs={2}><Row><Button onClick={this.showProductByName}>show graph</Button></Row></Col>
+      <Col xs={5} ></Col>
+      
+    </Row>
+    <br></br>
+    </Container>
 
       <Row style={{height: "400px"}} id='mynetwork'><br></br> </Row>
       

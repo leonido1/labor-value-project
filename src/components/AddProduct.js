@@ -1,12 +1,11 @@
 import React, {Component, component} from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import ProductInputTable from "./productInputTable"
-import { Form,Button } from 'react-bootstrap'
+import { Form,Button,Container,Row,Col } from 'react-bootstrap'
 
 
 import axios from 'axios';
 import $ from "jquery";
-
 
 
 const ProductInputTableId = "ProductInputTable"; 
@@ -45,32 +44,67 @@ export default class AddProduct extends Component{
     
     $("#ProductName").val("")
     $("#ProductLabour").val("")
-
+    this.forceUpdate()
 
     e.preventDefault()
   }
 
     render(){
       return ( 
-      
       <Form onSubmit={this.addProduct}>
-      
         <br></br>
+        <Row>
+          <Col></Col>
+          <Col>
+        <Row> <Col ></Col><Col  ><h4>Add Product</h4></Col> <Col ></Col></Row> 
+
+
       <Form.Label>Name</Form.Label>
       <Form.Control id={ProductNameId} type="text" placeholder="Enter name" />
-      
-        <br></br>
+    
+      <br></br>
+
       <Form.Label>Labour</Form.Label>
       <Form.Control id={ProductLabourId} type="Number" placeholder="Enter Labour to produce one unit" />
-
+    
+        </Col>
+        <Col></Col>
+      
+      </Row>
+      
+      
       <br></br>
-      <ProductInputTable intermediateProductsToPresent={[]} ProductInputTableId={ProductInputTableId}></ProductInputTable>
+      
+      <Row> 
+      <Col></Col>
+          <Col>
+
+      
+      <Container style={{"background": "azure"}}>
       
 
+      <ProductInputTable intermediateProductsToPresent={[]} ProductInputTableId={ProductInputTableId}></ProductInputTable>
+
+
       <br></br>
+        </Container>
+        </Col>
+      <Col></Col>
+      </Row>
 
+
+      <br></br>
+      <Row>
+        <Col></Col>
+        <Col></Col>
+        <Col>
+        <div className="d-grid gap-1">
         <Button type="submit">add product</Button>
-
+        </div>
+        </Col>
+        <Col></Col>
+        <Col></Col>
+        </Row>
       </Form>
       
       );

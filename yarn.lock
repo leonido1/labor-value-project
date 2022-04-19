@@ -7668,6 +7668,13 @@
     "regenerator-runtime" "^0.13.9"
     "whatwg-fetch" "^3.6.2"
 
+"react-bootstrap-icons@^1.7.2":
+  "integrity" "sha512-FaXk5iHjd6eltoPHUo+onIkcN/xcCEbaEnTeRacibwVlPagEzujFYtUJ0C2+DlvfkWwy5N+b347tSTbtWqBSEg=="
+  "resolved" "https://registry.npmjs.org/react-bootstrap-icons/-/react-bootstrap-icons-1.7.2.tgz"
+  "version" "1.7.2"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-bootstrap-typeahead@^6.0.0-alpha.9":
   "integrity" "sha512-7/fYZeon84423Y3qKx+YrwEyG427zJ3iApGSQeBNCXovdKowVDf5LdEK/KZ1UPAWsKeVpRTOEr8qLtGYUvL7OQ=="
   "resolved" "https://registry.npmjs.org/react-bootstrap-typeahead/-/react-bootstrap-typeahead-6.0.0-alpha.9.tgz"
@@ -7707,6 +7714,11 @@
     "react-transition-group" "^4.4.1"
     "uncontrollable" "^7.2.1"
     "warning" "^4.0.3"
+
+"react-client-session@^0.0.8":
+  "integrity" "sha512-wHCTD4lEE8mzl6kxL8viL4q5kGx2TJJNaWdvzmx3KeiMgP+Yv5/Bx476jCpPD0pKc5VvdVuhkH4EM20XqtT/sQ=="
+  "resolved" "https://registry.npmjs.org/react-client-session/-/react-client-session-0.0.8.tgz"
+  "version" "0.0.8"
 
 "react-dev-utils@^12.0.0":
   "integrity" "sha512-xBQkitdxozPxt1YZ9O1097EJiVpwHr9FoAuEVURCKV0Av8NBERovJauzP7bo1ThvuhZ4shsQ1AJiu4vQpoT1AQ=="
@@ -7884,7 +7896,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@*", "react@^16.8.0 || ^17", "react@^16.8.0 || ^17.0.0-rc.1", "react@^17.0.2", "react@>= 16", "react@>=0.14.0", "react@>=15.0.0", "react@>=16.14.0", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@17.0.2":
+"react@*", "react@^16.8.0 || ^17", "react@^16.8.0 || ^17.0.0-rc.1", "react@^16.8.6 || ^17", "react@^17.0.1", "react@^17.0.2", "react@>= 16", "react@>=0.14.0", "react@>=15.0.0", "react@>=16.14.0", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

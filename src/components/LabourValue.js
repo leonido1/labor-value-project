@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {Component, component} from 'react';
-
+import {Button,Row,Col} from 'react-bootstrap'
 
 export default class LabourValue extends Component{
 
@@ -16,7 +16,7 @@ export default class LabourValue extends Component{
 
     componentDidMount(){
 
-        axios.get("http://localhost:5000/calculations/getLaborValueByName",{params:{name:this.state.productName}}).then(res=>{
+        axios.get("http://localhost:5000/calculations/getLaborValueByName",{  withCredentials: true,params:{name:this.state.productName}}).then(res=>{
 
             if(res.data.message=='need to caclculate labor values'){
                 console.log(res)
@@ -38,8 +38,8 @@ export default class LabourValue extends Component{
 
 
     recalculateButton(){
-        if(this.state.needToRecalculate){
-            return <button type='submit' onClick={this.recalculate}>Recalculate</button>
+        if(this.state.needToRecalculate||true){
+            return <Row><Col xs={3}></Col><Col xs={6}> <div className="d-grid gap-1"><Button type='submit' onClick={this.recalculate}>Recalculate</Button></div></Col><Col xs={3}></Col></Row>
         }else {
             return <></>
         }
@@ -47,20 +47,30 @@ export default class LabourValue extends Component{
     
     recalculate(){
 
-        axios.get("http://localhost:5000/calculations/").then(data=>{this.setState({needToRecalculate:false,labourValue:""})})
+
+        console.log(document.cookie)
+        axios.get("http://localhost:5000/calculations/",{ 
+            withCredentials: true
+          }).then(data=>{ console.log("then") 
+          this.setState({needToRecalculate:false,labourValue:""})}).catch((err)=>{console.log(err)})
     }
 
 
 
 
-    render(){
+    render(){       
         console.log("in value render")
         
         return(<>
-        <h1>Labour value:{this.state.labourValue}</h1>
+       
+        <h3>Labour value:{(()=>{
+            if(parseFloat(this.state.labourValue).toFixed(2) ==="NaN")
+                return "";
+            return parseFloat(this.state.labourValue).toFixed(2)})()}</h3>
           {this.state.needToRecalculate&&this.recalculateButton()}
               
-            <br></br>
+            <br></br>        
+            
         </>)
 
     }

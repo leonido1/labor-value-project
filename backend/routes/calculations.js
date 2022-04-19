@@ -3,9 +3,16 @@ const router = require('express').Router();
 const linear = require('linear-solve')
 
 let product = require('../models/product.model');
+const isAuthanticated = require('../util/auth');
 
-router.route('/').get(async (req, res) => {
-  
+
+
+router.route('/').get(isAuthanticated,async (req, res) => {
+
+  console.log(req.session.loggedIn,"after")
+  console.log(req.session.id,"after")
+  console.log(req.session.user)
+  req.session.save()
   let products =await product.find()
   
   let indexArr = []
@@ -24,33 +31,28 @@ router.route('/').get(async (req, res) => {
     productMatrix[row][row]=-1;
 
     products[row].intermediate_products.forEach(intermediate_product => {
-      productMatrix[row][indexArr[intermediate_product.name]]=parseInt(intermediate_product.quantity)
+      productMatrix[row][indexArr[intermediate_product.name]]=productMatrix[row][indexArr[intermediate_product.name]]+parseFloat(intermediate_product.quantity)
  
     });
       
   });
   
-
   let solution = linear.solve(productMatrix,labour)
 
   products.map(async (prod,index)=>{
     products[index].labour_value = solution[index];
-  
     let res = await product.findOneAndUpdate({name:products[index].name},{labour_value:products[index].labour_value})
-    console.log({name:products[index].name},products[index])
-    
-    console.log(res)
 
   })
 
    
-
+ 
   res.status(200).json({status:200,mat:productMatrix,products: products, labour,solution})
 });
 
 
 
-router.route('/getLaborValueByName').get(async (req, res)=>{
+router.route('/getLaborValueByName').get(isAuthanticated,async (req, res)=>{
 
   let unkownLaborValue =await product.find({ labour_value: "-1"});
  
@@ -58,7 +60,6 @@ router.route('/getLaborValueByName').get(async (req, res)=>{
   if(unkownLaborValue.length===0){
         
     let foundProduct = await product.find({ name: req.query.name})
-    console.log(foundProduct,res)
 
     if(foundProduct.length==0)
       return res.status(200).json({})
@@ -69,7 +70,6 @@ router.route('/getLaborValueByName').get(async (req, res)=>{
 
   }else{
     return res.status(200).json({message:"need to caclculate labor values"})
-
   }
 
 
